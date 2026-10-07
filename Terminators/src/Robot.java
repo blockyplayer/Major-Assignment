@@ -8,12 +8,7 @@ public class Robot {
 	double damage;
 	int attackIndex;
 	String[] names = { "" };
-	// Ordered in ascending attack damage dealt
-	String[] attackTypes =
-	 { "1: Basic shoot", 
-	"2: Laser eyes", 
-	"3: Missile launch",
-	 "4: Defend" };
+
 	 
 	int[] attackTypesIndexes;
 	boolean isAlive;
@@ -39,7 +34,7 @@ public class Robot {
 
 	public boolean canAttack(Robot other) {
 	double damageThreshehold = (other.damage / 5);
-		return (health > other.health && damage > damageThreshehold);
+	return (health > other.health && damage > damageThreshehold);
 	}
 
 	public void defend(Robot other) {

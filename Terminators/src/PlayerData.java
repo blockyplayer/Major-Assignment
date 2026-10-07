@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
@@ -10,7 +11,7 @@ public class PlayerData {
   public PlayerData() {
 
   }
-  public void fileIO() {
+  public void fileIO() throws FileNotFoundException {
   Scanner scanner = new Scanner(new File("user-data.csv"));
   scanner.nextLine();
   scanner.useDelimiter(",");
@@ -24,7 +25,7 @@ public class PlayerData {
     String attackTypeData = scanner.next();
     scanner.nextLine();
 
-    writer.println("" + name + attackIDData + attackIndexData + attackTypeData);
+    writer.println("" + attackIDData + attackIndexData + attackTypeData);
 
   //            if(homeScore > awayScore) {
   //                writer.println(homeTeam+" won at home against "+awayTeam+" by "+homeScore+" - "+awayScore);

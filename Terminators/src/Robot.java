@@ -22,26 +22,25 @@ public class Robot {
 		isAlive = true;
 
 	}
-
-	public void attack(Robot other, int attackIndex) {
-		damage *= (attackIndex + 1);
-		if (canAttack(other)) {
-			other.isAlive = false;
-		} else {
-			this.isAlive = false;
-		}
-	}
-
-	public boolean canAttack(Robot other) {
-	double damageThreshehold = (other.damage / 5);
-	return (health > other.health && damage > damageThreshehold);
-	}
-
-	public void defend(Robot other) {
-		isAlive = this.canAttack(other);
-	}
-
 }
+
+	// public void attack(Robot other, int attackIndex) {
+	// 	damage *= (attackIndex + 1);
+	// 	if (canAttack(other)) {
+	// 		other.isAlive = false;
+	// 	} else {
+	// 		this.isAlive = false;
+	// 	}
+	// }
+
+	// public boolean canAttack(Robot other) {
+	// double damageThreshehold = (other.damage / 5);
+	// return (health > other.health && damage > damageThreshehold);
+	// }
+
+	// public void defend(Robot other) {
+	// 	isAlive = this.canAttack(other);
+	// }
 
 // Add method to write recent attacks to file
 

@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 
 public class Battle {
-  ArrayList<Robot> robotList;
+  ArrayList<Robot> list;
   Attack attack; 
   int index;
 
-  public Battle(ArrayList<Robot> list, int attackIndex) {
-    robotList = list;
+  public Battle(ArrayList<Robot> RobotList, int attackIndex) {
+    list = RobotList;
     index = attackIndex;
-    attack = new Attack(robotList.get(0), robotList.get(1), index);
+    attack = new Attack(list.get(0), list.get(1), index);
   }
 
   //This method changes attributes of the Robots. 
@@ -21,13 +21,6 @@ public class Battle {
       }
       attack.offence.health -= attack.otherDamage; // [robotName].damage is not scaled, whilst [robotName]Damage is.
       attack.other.health -= attack.offenceDamage;
-    }
-
-  }
-
-  public void kill(Robot robot) {
-    if (robot.isAlive == false) {
-      robot = null;
     }
   }
 }

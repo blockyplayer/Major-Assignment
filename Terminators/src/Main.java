@@ -36,6 +36,7 @@ public class Main {
 		return globalGameStartTime;
 	}
 
+
 	// public void kill(Robot robot) {
 	// 	if (robot.isAlive == false) {
 	// 		data.

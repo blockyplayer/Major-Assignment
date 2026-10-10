@@ -6,11 +6,7 @@ import java.util.Scanner;
 public class Robot {
 	double health;
 	double damage;
-	int attackIndex;
 	String[] names = { "" };
-
-	 
-	int[] attackTypesIndexes;
 	boolean isAlive;
 
 	public Robot(double health_, double damage_) {
@@ -21,6 +17,13 @@ public class Robot {
 		damage = damage_;
 		isAlive = true;
 
+	}
+
+	public void attack(int attackIndex, Robot other) {
+		Attack newAttack = new Attack(this, other, attackIndex);
+		if (newAttack.canAttack()) {
+			other.damage -= newAttack.offenceDamage;
+		}
 	}
 }
 

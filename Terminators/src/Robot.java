@@ -15,12 +15,18 @@ public class Robot {
 		health = health_;
 		damage = damage_;
 		name = robotName;
-		isPlayer = true;
+		isPlayer = false;
+		attacks = new ArrayList<>();
+		for (int i = 0; i < 3; i++) {
+			attacks.add(new Attack(i));
+		}
 	}
 
 	public String attack(int attackIndex, Robot other) {
-		Attack newAttack = new Attack(attackIndex);
-		String description = "" + name + " used " + newAttack.getName() + " against " + other.name + "! " + other.name + " took " + newAttack.getMultiplier() + " damage!"
+
+		Attack newAttack = attacks.get(attackIndex);
+		double damage = this.damage * newAttack.getMultiplier();
+		String description = "" + name + " used " + newAttack.getName() + " against " + other.name + "! " + other.name + " took " + newAttack.getMultiplier() + " damage!";
 		return description;
 
 	}

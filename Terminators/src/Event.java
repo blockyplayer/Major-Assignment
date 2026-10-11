@@ -15,7 +15,10 @@ public class Event {
     String event = eventList[n];
 
     if (n == 0) {
-      robot.damage += 50 * ;
+      robot.damage += 50;
+    }
+    if (n == 1) {
+      robot.health += 50;
     }
     return ("You got " + event + "! ");
   }

@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class PlayerData {
   int score;
   Robot r;
+  static String fileName = "playerData.csv";
   public PlayerData(Robot player, int playerScore) {
     r = player;
     score = playerScore;
@@ -27,16 +28,41 @@ public class PlayerData {
   void earn(int amount) {
     score += amount;
   }
-
-  public void save(String fileName) throws Exception {
-    PrintWriter file = new PrintWriter(fileName);
-    String data = "" + r.name + "," + r.damage + "," + r.health + "," + score;
-    file.append(data);
+  public Robot getRobot() {
+    return r;
   }
 
-  public static PlayerData load(String filename) throws Exception {
-    Scanner file = new Scanner(filename);
+  public int getCredits() {
+    return score;
+  }
+
+  public void save() {
     
+    try {
+      PrintWriter file = new PrintWriter(new FileWriter(fileName));
+      String data = "" + r.name + "," + r.health + "," + r.damage + "," + score;
+      file.println(data);
+      file.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+
+  }
+
+  public static PlayerData load() throws Exception {
+
+    File file = new File(fileName);
+
+    try (Scanner output = new Scanner(file)) {
+      String[] data = output.nextLine().split(",");
+      // name, health, damage
+      Robot robot = new Robot(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[3]));
+      return new PlayerData(robot, Integer.parseInt(data[3]));
+    } catch (Exception e) {
+      return null;
+    }
+
   }
   
 }

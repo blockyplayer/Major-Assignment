@@ -13,7 +13,7 @@ public class Attack {
     "4: Defend" };
 
     name = attackTypes[attackMultiplier];
-    multiplier = attackMultiplier + 1;
+    multiplier = attackMultiplier + 2;
     
     // double offenceDamage = offence.damage * (multiplier + 1);
     // double otherDamage = other.damage * (1.5);

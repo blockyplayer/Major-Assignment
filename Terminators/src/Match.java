@@ -7,7 +7,6 @@ public class Match {
   Robot robot;
   Match left;
   Match right;
-  ArrayList<Robot> robots;
   public Match(Robot other) {
     robot = other;
   }
@@ -24,6 +23,7 @@ public class Match {
       return robot;
     }
     else {
+      ArrayList<Robot> robots = new ArrayList<>();
       robots.add(left.winner(in));
       robots.add(right.winner(in));
 

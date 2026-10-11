@@ -16,9 +16,10 @@ public class Battle {
   //This method changes attributes of the Robots. 
   public Robot fight(Scanner in) {
     while (offence.isAlive() && target.isAlive()) {
-      turn(offence, target, in);
-      
-      turn(target, offence, in);
+      System.out.println(turn(offence, target, in));
+      if (target.isAlive()) {
+        System.out.println(turn(target, offence, in));
+      }
 
     }
 
@@ -28,9 +29,9 @@ public class Battle {
 
   public String turn(Robot offence, Robot target, Scanner in) {
     if (offence.isPlayer) {
-      for (int i = 0; i < offence.getAttackCount()) {
+      for (int i = 0; i < offence.getAttackCount(); i++) {
         System.out.print(offence.getAttackNames(i));
-        index = Main.readChoice(in, 1, offence.getAttackCount());
+        index = Main.readChoice(in, 1, offence.getAttackCount()) - 1;
       }
       
     } else {

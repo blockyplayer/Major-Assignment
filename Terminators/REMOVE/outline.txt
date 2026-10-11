@@ -1,0 +1,64 @@
+Here's each class. `Event` is dropped because nothing in the plan needs it. Write them in this order so you can compile as you go: `Attack`, `Robot`, `Battle`, `Main` (basic), then `PlayerData`, `Match`, and the shop.
+
+## Attack
+**Purpose:** describes one type of move. It holds no robots and no state that changes.
+- **Fields (private):** `String name`, `double multiplier`
+- **Constructor:** `Attack(String name, double multiplier)`
+- **Methods:** `getName()`, `getMultiplier()`
+
+## Robot
+**Purpose:** one fighter. It owns its stats and its list of attacks, and it performs the attack itself.
+- **Fields (private):** `String name`, `double health`, `double damage`, `ArrayList<Attack> attacks`
+- **Constructor:** `Robot(String name, double health, double damage)`. It also adds two default attacks to the list (e.g. "Basic shoot" at 1.0 and "Laser eyes" at 2.0), so `PlayerData.load` doesn't have to rebuild them.
+- **Methods:**
+  - `String attack(int attackIndex, Robot target)`: damage dealt is `damage * multiplier`, calls `target.takeDamage(...)`, and returns a description string such as "Alpha used Laser eyes! Beta took 20.0 damage!"
+  - `void takeDamage(double amount)`: reduces health, with a floor of 0.
+  - `boolean isAlive()`: returns `health > 0`.
+  - `void repair(double amount)` and `void upgradeDamage(double amount)`: change the stats only. They don't know about credits.
+  - `int getAttackCount()`, plus getters for `name`, `health` and `damage`.
+
+## Battle
+**Purpose:** runs one fight between two robots to the end.
+- **Fields (private):** `Robot first`, `Robot second`
+- **Constructor:** `Battle(Robot first, Robot second)`
+- **Methods:** `Robot fight()` loops while both robots are alive. On each turn the current robot attacks with a random index in `0` to `getAttackCount() - 1`, and the second robot only attacks back if it is still alive. It prints each attack string and returns the survivor. Make sure every robot's `damage` is above 0, or the loop never ends.
+
+## Match
+**Purpose:** the recursive data structure. A node is either a single robot (a leaf) or two child matches (an internal node).
+- **Fields (private):** `Robot robot`, `Match left`, `Match right`
+- **Constructors:** `Match(Robot robot)` for a leaf, and `Match(Match left, Match right)` for an internal node.
+- **Methods:** `Robot winner()` returns `robot` if this is a leaf. Otherwise it returns `new Battle(left.winner(), right.winner()).fight()`. That call is the recursion.
+
+## PlayerData
+**Purpose:** the player's saved progress (robot and credits), plus all file I/O.
+- **Fields (private):** `Robot robot`, `int credits`
+- **Constructor:** `PlayerData(Robot robot, int credits)`
+- **Methods:**
+  - `void earn(int amount)`.
+  - `boolean spend(int amount)` returns `false` and changes nothing if `credits < amount`.
+  - `boolean buyRepair()` and `boolean buyUpgrade()`: each calls `spend(cost)` and, if that succeeds, calls the matching `Robot` method.
+  - `void save(String filename)` writes one line, `name,health,damage,credits`, with a `PrintWriter`. Overwrite the file rather than appending.
+  - `static PlayerData load(String filename)` reads that line. If the file is missing or malformed (`FileNotFoundException`, `NumberFormatException`, wrong number of fields), it returns a new default `PlayerData`.
+  - Getters for `robot` and `credits`.
+
+## Main
+**Purpose:** the driver. It holds the menu, input validation and the game flow. It has no game logic of its own.
+- **Methods:**
+  - `main`: loads, runs the menu loop, saves on exit.
+  - `static int readChoice(Scanner in, int min, int max)` keeps asking until the input is an integer in range, and rejects anything else.
+  - `static Match buildBracket(Robot player)` creates three computer `Robot`s and returns the four-leaf bracket: `new Match(new Match(new Match(player), new Match(bot1)), new Match(new Match(bot2), new Match(bot3)))`.
+  - A tournament method that calls `winner()`, then `earn(100)` if the player's robot won or `earn(30)` if not. After a loss, reset the player's robot's health, since it may have died in the bracket. Heal it with `repair` or rebuild it.
+
+Menu options: 1 repair, 2 upgrade damage, 3 enter tournament, 4 save and quit.
+
+## Tests (RobotTest)
+Five JUnit tests:
+1. `takeDamage` that exceeds health leaves health at 0.
+2. `isAlive` at exactly 0 health returns false.
+3. `attack` deals `damage * multiplier`.
+4. `spend` with insufficient credits returns false and leaves credits unchanged.
+5. `load` of a missing file returns the defaults.
+
+A sixth, `Match.winner()` on a single leaf, is cheap and covers the recursion.
+
+If the compiler complains about something, paste the error and I'll help you fix it.

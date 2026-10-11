@@ -13,12 +13,7 @@ public class Main {
 		list.add(robot1);
 		list.add(robot2);
 
-		// ArrayList<Robot> robotList = new ArrayList<Robot>(5);
-		// Battle battle = new Battle(robotList);
-		// Attack attack = new Attack(robot1, enemy, 1/*, userAttack*/);
-		Event randomEvent = new Event(robot1, 6);
 		Battle battle = new Battle(list, 1);
-		//battle.fight();
 
 		System.out.println("" + robot1.damage + "" + robot1.health + "" + robot1.isAlive);
 		System.out.println("" + robot2.damage + "" + robot2.health + "" + robot2.isAlive);

@@ -2,28 +2,56 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Robot {
 	double health;
 	double damage;
-	String[] names = { "" };
-	boolean isAlive;
+	ArrayList<Attack> attacks;
+	String name;
+	boolean isPlayer;
 
-	public Robot(double health_, double damage_) {
+	public Robot(String robotName, double health_, double damage_) {
 		health = health_;
-
-		// The attack array is in order of attack damage dealt, so we can directly use
-		// the index in calculations.
 		damage = damage_;
-		isAlive = true;
+		name = robotName;
+		isPlayer = true;
+	}
+
+	public String attack(int attackIndex, Robot other) {
+		Attack newAttack = new Attack(attackIndex);
+		String description = "" + name + " used " + newAttack.getName() + " against " + other.name + "! " + other.name + " took " + newAttack.getMultiplier() + " damage!"
+		return description;
 
 	}
 
-	public void attack(int attackIndex, Robot other) {
-		Attack newAttack = new Attack(this, other, attackIndex);
-		if (newAttack.canAttack()) {
-			other.damage -= newAttack.offenceDamage;
+	public void takeDamage(double damageTaken) {
+		if (this.health > 0) {
+			this.health -= damageTaken;
 		}
+	}
+
+	public boolean isAlive() {
+		if (this.health > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public void repair(double amount) {
+		this.health += amount;
+	}
+
+	public void upgrade(double amount) {
+		this.damage += amount;
+	}
+
+	public int getAttackCount() {
+		return attacks.size();
+	}
+
+	public String getAttackNames(int index) {
+		return attacks.get(index).getName();
 	}
 }
 
